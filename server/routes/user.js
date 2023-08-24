@@ -57,4 +57,14 @@ router.put('/unfollow', requireLogin, async (req, res) => {
   }
 });
 
+router.put('/updatepic', requireLogin, (req, res) => {
+  User.findByIdAndUpdate(req.user._id, { $set: { pic: req.body.pic } }, { new: true })
+    .then(result => {
+      res.json(result);
+    })
+    .catch(err => {
+      res.status(422).json({ error: "Failed to update profile picture" });
+    });
+});
+
 module.exports = router;
