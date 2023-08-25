@@ -104,15 +104,26 @@ const Profile = ()=>{
                     <h5>{userProfile.user.followers.length} folowers</h5>
                     <h5>{userProfile.user.following.length} following</h5>
                 </div>
-                {showfollow?
-                    <button style={{margin:"10px"}} className="btn waves-effect waves-light #64b5f6 blue darken-1" onClick={()=>folloUser()}>
-                    Follow
-                </button>
-                :
-                <button style={{margin:"10px"}} className="btn waves-effect waves-light #64b5f6 blue darken-1" onClick={()=>unfolloUser()}>
-                    UnFollow
-                </button>
-                }
+                
+                {
+                    userProfile.user.followers.includes(user._id) ? (
+                        <button
+                        style={{ margin: "10px" }}
+                        className="btn waves-effect waves-light #64b5f6 blue darken-1"
+                        onClick={() => unfolloUser()}
+                        >
+                        Unfollow
+                        </button>
+                    ) : (
+                        <button
+                        style={{ margin: "10px" }}
+                        className="btn waves-effect waves-light #64b5f6 blue darken-1"
+                        onClick={() => folloUser()}
+                        >
+                        Follow
+                        </button>
+                    )
+                    }
                 
             </div>
         </div>
