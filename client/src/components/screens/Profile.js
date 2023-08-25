@@ -3,7 +3,7 @@ import { UserContext } from "../../App";
 
 const Profile = () => {
   const [mypics, setPics] = useState([]);
-  const { state, dispatch } = useContext(UserContext);
+  const { dispatch } = useContext(UserContext);
   const user = JSON.parse(localStorage.getItem("user"));
   const [image, setImage] = useState("");
 
@@ -19,6 +19,18 @@ const Profile = () => {
       });
   }, []);
 
+  useEffect(() => {
+    fetch("/mypost", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setPics(result.mypost);
+      });
+  }, []);
+  
   useEffect(() => {
     if (image) {
       const data = new FormData();
@@ -43,10 +55,8 @@ const Profile = () => {
           })
             .then((res) => res.json())
             .then((result) => {
-              localStorage.setItem(
-                "user",
-                JSON.stringify({ ...user, pic: data.url }) // Update the user data with the new profile picture URL
-              );
+              const updatedUser = { ...user, pic: data.url }; // Create a new object with updated profile picture URL
+              localStorage.setItem("user", JSON.stringify(updatedUser));
               dispatch({ type: "UPDATEPIC", payload: data.url });
             });
         })
@@ -54,7 +64,7 @@ const Profile = () => {
           console.log(err);
         });
     }
-  }, [image]);
+  }, [image, dispatch, user]);
 
   const updatePhoto = (file) => {
     setImage(file);

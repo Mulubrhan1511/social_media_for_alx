@@ -9,11 +9,11 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [image, setImage] = useState("");
   const [url, setUrl] = useState(undefined);
-  useEffect(()=>{
-    if(url){
-      uploadFields()
+  useEffect(() => {
+    if (url) {
+      uploadFields();
     }
-  },[url])
+  }, [url, uploadFields]);
   const uploadPic = (()=>{
     const data = new FormData()
     data.append("file",image)
@@ -32,7 +32,7 @@ const SignUp = () => {
     })
   })
   const uploadFields=()=>{
-    if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email))
+    if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email))
     {
         M.toast({ html: "invalid email", classes: "#c62828 red darken-3" });
         return

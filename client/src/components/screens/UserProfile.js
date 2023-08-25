@@ -4,21 +4,21 @@ import {useParams} from 'react-router-dom'
 
 const Profile = ()=>{
     const [userProfile,setProfile] = useState(null)
-    const { state, dispatch } = useContext(UserContext);
+    const { dispatch } = useContext(UserContext);
     const user = JSON.parse(localStorage.getItem("user"))
     const {userid} = useParams()
-    const [showfollow,setShowFollow] = useState(state?!state.following.includes(userid):true)
-    useEffect(()=>{
-        fetch(`/user/${userid}`,{
-            headers:{
-                "Authorization":"Bearer "+localStorage.getItem("jwt")
-            }
-        }).then(res=>res.json())
-        .then(result=>{
-            console.log(result)
-            setProfile(result)
+    useEffect(() => {
+        fetch(`/user/${userid}`, {
+          headers: {
+            "Authorization": "Bearer " + localStorage.getItem("jwt")
+          }
         })
-    },[])
+          .then(res => res.json())
+          .then(result => {
+            console.log(result);
+            setProfile(result);
+          });
+      }, [userid]);
     const folloUser = ()=>{
         fetch('/follow',{
             method:"put",
@@ -46,7 +46,7 @@ const Profile = ()=>{
                 };
               });
         })
-        setShowFollow(false)
+       
     }
     const unfolloUser = ()=>{
         fetch('/unfollow',{
@@ -79,7 +79,7 @@ const Profile = ()=>{
                 };
               });
         })
-        setShowFollow(true)
+        
         
     }
     return(
@@ -94,7 +94,7 @@ const Profile = ()=>{
         }}>
             <div>
                 <img style={{width:"160px",height:"160px",borderRadius:"80px"}}
-                src={userProfile.user.pic} />
+                src={userProfile.user.pic} alt="" />
             </div>
             <div>
              <h4>{userProfile.user.name}</h4>

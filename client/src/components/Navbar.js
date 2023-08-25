@@ -4,7 +4,7 @@ import { UserContext } from '../App';
 
 const NavBar = () => {
   const navigate = useNavigate();
-  const { state, dispatch } = useContext(UserContext);
+  const { dispatch } = useContext(UserContext);
   const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const NavBar = () => {
     } else {
       navigate('/signin');
     }
-  }, []);
+  }, [navigate,dispatch]);
 
   return (
     <nav>
