@@ -24,7 +24,7 @@ const Routing =()=>{
     }else{
       navigate('/signin');
     }
-  },[])
+  },[navigate, dispatch])
   return(
     
     <Routes>
