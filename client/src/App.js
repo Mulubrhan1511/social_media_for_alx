@@ -9,13 +9,14 @@ import Signup from "./components/screens/Signup";
 import CreatePost from "./components/screens/CreatePost";
 import {reducer,initialState} from "./reducers/userReducer"
 import UserProfile from "./components/screens/UserProfile"
+import Message from "./components/screens/Messages"
 import SubscribedUserPost from "./components/screens/SubscribeUserPost"
 
 export const UserContext = createContext()
 
 const Routing =()=>{
   const navigate = useNavigate()
-  const {dispatch} = useContext(UserContext)
+  const {state,dispatch} = useContext(UserContext)
   useEffect(()=>{
     const user = JSON.parse(localStorage.getItem("user"))
     if(user){
@@ -24,7 +25,7 @@ const Routing =()=>{
     }else{
       navigate('/signin');
     }
-  },[navigate, dispatch])
+  },[])
   return(
     
     <Routes>
@@ -33,6 +34,7 @@ const Routing =()=>{
           <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/create" element={<CreatePost />} />
+          <Route path="/messsage" element={<Message />} />
           <Route path="/profile/:userid" element={<UserProfile />} />
           <Route path="/myfollowerspost" element={<SubscribedUserPost />} />
     </Routes>

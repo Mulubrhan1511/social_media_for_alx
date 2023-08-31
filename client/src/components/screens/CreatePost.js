@@ -8,31 +8,32 @@ const CretePost = ()=>{
     const [body,setBody] = useState("")
     const [image,setImage] = useState("")
     const [url,setUrl] = useState("")
-    useEffect(() => {
-        if (url) {
-          fetch("/creatpost", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer " + localStorage.getItem("jwt")
+    useEffect(()=>{
+        if(url){
+            fetch("/creatpost", {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization":"Bearer " + localStorage.getItem("jwt")
             },
-            body: JSON.stringify({
-              title,
-              body,
-              pic: url
-            }),
-          })
-            .then(res => res.json())
-            .then(data => {
-              if (data.error) {
-                M.toast({ html: data.error, classes: "#c62828 red darken-3" });
-              } else {
-                M.toast({ html: "Created post successfully", classes: "#43a047 green darken-1" });
-                navigate("/");
-              }
-            });
+                body: JSON.stringify({ 
+                    title, 
+                    body,
+                    pic:url
+                 }),
+              })
+                .then(res => res.json())
+                .then(data => {
+                  
+                  if (data.error) {
+                    M.toast({ html: data.error, classes: "#c62828 red darken-3" });
+                  } else {
+                    M.toast({ html: "Created post successfully", classes: "#43a047 green darken-1" });
+                    navigate("/");
+                  }
+                });
         }
-      }, [url, body, navigate, title]);
+    },[url])
     const postDetails = ()=>{
         const data = new FormData()
         data.append("file",image)
