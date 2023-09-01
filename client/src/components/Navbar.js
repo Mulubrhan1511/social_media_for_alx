@@ -20,7 +20,7 @@ const NavBar = () => {
   return (
     <nav>
       <div className="nav-wrapper white">
-        <Link to={user ? "/" : "/signin"} className="brand-logo">Instagram</Link>
+        <Link to={user ? "/" : "/signin"} className="brand-logo"> alx</Link>
         <ul id="nav-mobile" className="right hide-on-med-and-down">
           {user ? (
             <>

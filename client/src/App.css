@@ -51,7 +51,7 @@ a{
     padding: 5px 10px; /* Add padding */
     border-radius: 5px; /* Add rounded corners */
   }
-  
+
   .like-button {
     background-color: #00ff00; /* Green background color */
     color: #ffffff; /* White text color */
@@ -75,3 +75,30 @@ a{
     margin-left: 2.9rem;
     margin-top: -.75rem;
     }
+    .dot-red-indicator {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        width: 10px;
+        height: 10px;
+        background-color: red;
+        border-radius: 50%;
+      }
+      .dot-green-indicator {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        width: 10px;
+        height: 10px;
+        background-color: rgb(9, 255, 0);
+        border-radius: 50%;
+      }
+      .dot-yellow-indicator {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        width: 10px;
+        height: 10px;
+        background-color: rgb(255, 196, 0);
+        border-radius: 50%;
+      }
