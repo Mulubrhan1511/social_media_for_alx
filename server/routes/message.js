@@ -42,4 +42,22 @@ router.post("/messages", requireLogin, async (req, res) => {
   }
 });
 
+router.get("/messages", requireLogin, async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    // Find messages where the current user is the sender or recipient
+    const messages = await Message.find({
+      $or: [{ sender: userId }, { recipient: userId }]
+    })
+    .populate("sender", "-password")
+    .populate("recipient", "-password");
+
+    res.json(messages);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 module.exports = router;
