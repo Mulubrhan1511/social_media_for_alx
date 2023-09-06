@@ -3,8 +3,34 @@ import { UserContext } from "../../App";
 import { useParams } from 'react-router-dom';
 
 const FollowerList = ({ followers, setSelectedFollower }) => {
- 
+  const [messages, setMessages] = useState([]);
+
+  const fetchMessages = async () => {
+    try {
+      const response = await fetch('/messages', {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch messages');
+      }
+
+      const data = await response.json();
+      console.log('Messages', data);
+      setMessages(data);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMessages();
+  }, []);
+  console.log("new messages", messages)
   return (
+    
     <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
       <div className="input-group rounded mb-3">
         <input
@@ -23,30 +49,32 @@ const FollowerList = ({ followers, setSelectedFollower }) => {
           style={{ position: 'relative', height: '400px', overflowY: 'auto' }}
         >
           <ul className="list-unstyled mb-0">
-            {followers.map((follower) => (
-              <li className="p-2 border-bottom" key={follower.id}>
-                <a href="#" className="d-flex justify-content-between" onClick={() => setSelectedFollower(follower)}>
-                  <div className="d-flex flex-row">
-                    <div>
-                      <img
-                        src={follower.pic}
-                        alt="avatar"
-                        className="d-flex align-self-center me-3"
-                        style={{ width: "60px", height: "60px", borderRadius: "40px" }}
-                      />
-                      <span className="badge bg-warning badge-dot"></span>
+            {followers.map((follower) =>
+              messages.some((message) => message.sender._id === follower._id || message.recipient._id === follower._id) ? (
+                <li className="p-2 border-bottom" key={follower.id}>
+                  <a href="#" className="d-flex justify-content-between" onClick={() => setSelectedFollower(follower)}>
+                    <div className="d-flex flex-row">
+                      <div>
+                        <img
+                          src={follower.pic}
+                          alt="avatar"
+                          className="d-flex align-self-center me-3"
+                          style={{ width: '60px', height: '60px', borderRadius: '40px' }}
+                        />
+                        <span className="badge bg-warning badge-dot"></span>
+                      </div>
+                      <div className="pt-1">
+                        <p className="fw-bold mb-0">{follower.name}</p>
+                        <p className="small text-muted">Lorem ipsum dolor sit.</p>
+                      </div>
                     </div>
                     <div className="pt-1">
-                      <p className="fw-bold mb-0">{follower.name}</p>
-                      <p className="small text-muted">Lorem ipsum dolor sit.</p>
+                      <p className="small text-muted mb-1">Yesterday</p>
                     </div>
-                  </div>
-                  <div className="pt-1">
-                    <p className="small text-muted mb-1">Yesterday</p>
-                  </div>
-                </a>
-              </li>
-            ))}
+                  </a>
+                </li>
+              ) : null
+            )}
           </ul>
         </div>
       </div>

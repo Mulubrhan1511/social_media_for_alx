@@ -7,14 +7,19 @@ const Message = mongoose.model("Message");
 
 // Route to get followers of a user
 router.get("/followers", requireLogin, async (req, res) => {
+  try {
+    const users = await User.find().select("-password");
+    res.json(users);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+  });
+
+  router.get("/users", requireLogin, async (req, res) => {
     try {
-      
-      const user = await User.findById(req.user._id).populate("followers", "-password");
-      const followers = user.followers.map(follower => {
-        const { _id, name, email, pic } = follower;
-        return { _id, name, email, pic };
-      });
-      res.json(followers);
+      const users = await User.find().select("-password");
+      res.json(users);
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: "Internal server error" });
